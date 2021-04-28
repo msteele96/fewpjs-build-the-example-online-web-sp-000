@@ -9,15 +9,20 @@ const posts = document.getElementsByClassName('media-post')
 for (const post of posts) {
   let heart = post.children[2].children[0].children[0].children[0]
   heart.addEventListener("click", (e) => {
-  mimicServerCall()
-  .then(() => {
-    e.target.innerText = FULL_HEART
-    e.target.className = "like-glyph activated-heart"
-  })
-  .catch((resp) => {
-    console.log("failed")
-    showError(resp)
-  })
+    if (e.target.innerText === FULL_HEART) {
+      e.target.innerText = EMPTY_HEART
+      e.target.className = 'like-glyph'
+    } else {
+      mimicServerCall()
+      .then(() => {
+        e.target.innerText = FULL_HEART
+        e.target.className = "like-glyph activated-heart"
+      })
+      .catch((resp) => {
+        console.log("failed")
+        showError(resp)
+      })    
+    }
 })}
 
 function showError(message) {
